@@ -1,0 +1,61 @@
+{% load static %}
+
+<!DOCTYPE html> 
+<html>
+<head>
+    <title>Registration Form</title>
+    <link rel="stylesheet" href="{% static 'NGO-Form.css' %}" type="text/css">
+</head>
+<body>
+    <div class="main">
+        <div class="register">
+            <h2>User Interface</h2>
+            <form id="register" enctype="multipart/form-data" action="SubmitNgoForm" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="latitude" id="latitudeInput">
+                <input type="hidden" name="longitude" id="longitudeInput">
+                
+                <label for="name">User Name:</label><br>
+                <input type="text" name="user_name" id="name" placeholder="Enter Your Name"><br><br>
+                
+                <label for="phone_number">Phone Number:</label><br>
+                <input type="text" name="phone_number" id="phone_number" placeholder="Enter Your phone number"><br><br>
+                
+                <label for="photo">Upload Photo:</label><br>
+                <input type="file" name="photo" id="photo" placeholder="Click here"><br><br>
+                
+                <label for="description">Description:</label><br>
+                <input type="text" name="description" id="description" placeholder="Enter the description"><br><br>
+                
+                <label>Animal Type:</label><br>
+                <input type="radio" name="animal_type" id="pet">
+                <label for="pet">Pet</label>
+                <input type="radio" name="animal_type" id="stray">
+                <label for="stray">Stray</label><br><br>
+                
+                <label>Priority:</label><br>
+                <input type="radio" name="priority" id="emergency">
+                <label for="emergency">Emergency</label>
+                <input type="radio" name="priority" id="urgent">
+                <label for="urgent">Urgent</label>
+                <input type="radio" name="priority" id="not_urgent">
+                <label for="not_urgent">Not Urgent</label><br><br>
+                
+                <input type="submit" value="Submit" name="submit" id="submit">
+            </form>
+        </div><!--end register-->
+    </div><!--end main-->
+    
+    <script>
+        window.onload = function() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    document.getElementById('latitudeInput').value = position.coords.latitude;
+                    document.getElementById('longitudeInput').value = position.coords.longitude;
+                    document.getElementById('register').submit();
+                });
+            }
+        };
+    </script>
+</body>
+</html>

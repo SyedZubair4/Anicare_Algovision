@@ -1,0 +1,163 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Remote file uploader</title>
+
+    <!-- Link to CSS file -->
+    <link rel="stylesheet" href="{% static 'ml_model.css' %}" />
+
+    <!-- Link to jQuery -->
+    <script src="./assets/js/jquery-3.6.0.min.js" defer></script>
+    <!-- Link to jQuery froms -->
+    <script src="./assets/js/jquery.form.min.js" defer></script>
+    <!-- Link to JS file -->
+
+    <style>
+      body {
+          background: linear-gradient(-45deg, #cb7b7b, #b3661a);
+          
+      }
+  </style>
+    
+  </head>
+  <body>
+    <!-- Navigation bar -->
+    <nav>
+      <div class="container">
+        <div class="nav-wrapper">
+          <div class="nav-brand">
+            <a href="index.html">Anicare</a>
+          </div>
+          <ul>
+            <li>
+              <a href="landingPage">Home</a>
+            </li>
+
+            <li>
+              <a href="LoadEcommerce">Shop</a>
+            </li>
+
+            <li>
+              <a href="redirectToServices">Services</a>
+            </li>
+
+            <li>
+              <a href="NgoLink">NGO</a>
+            </li>
+
+            <li>
+              <a href="redirectToMl">ML model</a>
+            </li>
+
+            <li>
+              <a href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main content with form -->
+    <main>
+      <div class="container">
+        <div class="form-wrapper">
+          <form  action="MachineLearn" method="post" enctype="multipart/form-data" id="form">
+            {% csrf_token %}
+            <h1 class="form-title">File upload</h1>
+            <div class="file-input">
+              <!-- actual upload which is hidden -->
+              <input type="file" name="file" id="actual-btn" hidden />
+
+              <!-- our custom upload button -->
+              <label class="custom-file" for="actual-btn">Choose File</label>
+
+              <!-- name of file chosen -->
+              <span id="file-chosen">No file chosen</span>
+            </div>
+            <div class="or">
+              <!-- <span>OR</span> -->
+            </div>
+            <div class="url-input">
+              <!-- <input
+                type="url"
+                name="link"
+                id="link"
+                placeholder="Paste Download Link"
+              />
+            </div> -->
+            <button class="btn" name="send" id="sendButton">Submit</button>
+          </form>
+          
+          {% if show_message %}
+          <h4>{{answer}} is the emotion of the image you uploaded!</h4>
+          {% endif %}
+
+          <!-- Uploading status -->
+          <div class="uploading-status hidden">
+            <div class="progress-bar" id="uploadingProgress"></div>
+            <ul>
+              <li>
+                <strong>Completed:</strong>
+                <span id="completedSize"></span>
+              </li>
+              <li>
+                <strong>Total Size:</strong>
+                <span id="totalSize"></span>
+              </li>
+              <li>
+                <strong>File Type:</strong>
+                <span id="fileType"></span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </main>
+
+
+    <script>
+      // Function to update the text of the span element
+      function updateFileChosenText() {
+          // Get the file input element and the span element
+          var fileInput = document.getElementById('actual-btn');
+          var fileChosenSpan = document.getElementById('file-chosen');
+  
+          // Check if a file is chosen
+          if (fileInput.files.length > 0) {
+              // Update the text of the span element
+              fileChosenSpan.textContent = 'File chosen!';
+          } else {
+              // Reset the text of the span element
+              fileChosenSpan.textContent = 'No file chosen';
+          }
+      }
+  
+      // Attach event listener to the file input element
+      window.onload = function() {
+          var fileInput = document.getElementById('actual-btn');
+          // Call the updateFileChosenText function when the file input changes
+          fileInput.addEventListener('change', updateFileChosenText);
+      };
+  </script>
+
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  <script type="text/javascript">
+    (function(d, m){
+        var kommunicateSettings = 
+            {"appId":"3645b06c9543dcd534b68ee34952fee38","popupWidget":true,"automaticChatOpenOnNavigation":true};
+        var s = document.createElement("script"); s.type = "text/javascript"; s.async = true;
+        s.src = "https://widget.kommunicate.io/v2/kommunicate.app";
+        var h = document.getElementsByTagName("head")[0]; h.appendChild(s);
+        window.kommunicate = m; m._globals = kommunicateSettings;
+    })(document, window.kommunicate || {});
+</script>
+
+  <script src="{% static 'ml_model.js'%}" defer></script>
+  </body>
+</html>
